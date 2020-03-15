@@ -6,6 +6,7 @@ class Livre {
 
   afficherListe() {
     let li = document.createElement("li");
+    li.id = this.idLivre;
     li.innerHTML = this.idLivre + " - " + this.titreLivre;
     document.getElementById("listeLivresDisponibles").appendChild(li);
   }
