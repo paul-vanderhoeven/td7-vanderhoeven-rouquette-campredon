@@ -59,9 +59,7 @@ class Model {
 	    }
 	}
 
-	public static function delete($primary_value, $table_name) {
-
-		$primary_key = static::$primary;
+	public static function delete($primary_value, $primary_key, $table_name) {
 
 		$sql = "DELETE FROM " . $table_name . " WHERE " . $primary_key . "=:value";
     	$req_prep = Model::$pdo->prepare($sql);
@@ -80,10 +78,9 @@ class Model {
 	    }
 	}
 
-	public static function update($data, $table_name) {
+	public static function update($data, $table_name, $primary_key) {
 		  $str_SET = "SET ";
 
-	    $primary_key = static::$primary;
 	    foreach ($data as $key => $value) {
 	      $str_SET = $str_SET . "$key=:$key, ";
 	    }
