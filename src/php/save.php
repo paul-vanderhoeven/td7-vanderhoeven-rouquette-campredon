@@ -15,7 +15,6 @@ if($table_name == strtolower("adherent")) {
   $data = array("nomAdherent" => $_GET["nomAdherent"]);
 }
 
-var_dump($data);
 $res = Model::save($data, $table_name);
 
 echo json_encode($res);

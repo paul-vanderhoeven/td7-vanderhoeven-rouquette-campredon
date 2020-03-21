@@ -12,6 +12,20 @@ class Adherent {
     document.getElementById("listeAdherents").appendChild(li);
   }
 
+  static afficherListeComplete() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "php/selectAll.php?table=adherent", true);
+    xhr.send(null);
+
+    xhr.addEventListener("load", function() {
+      let adherentArray = JSON.parse(xhr.responseText);
+      for (var adherent in adherentArray) {
+        let a = new Adherent(adherentArray[adherent].idAdherent, adherentArray[adherent].nomAdherent);
+        a.ajouterListe();
+      }
+    });
+  }
+
   sauvegarder() {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "php/save.php?table=adherent&nomAdherent=" + this.nomAdherent, true);
@@ -43,9 +57,6 @@ class Adherent {
     // TO DO
   }
 }
-
-let a = new Adherent(null, "Polo");
-a.sauvegarder();
 
 function requeteAjaxNom(id){
   let url = "php/select.php?id=" + id + "&table=adherent&primary=idAdherent";
