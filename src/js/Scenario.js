@@ -15,7 +15,7 @@ function loadAdherent() {
 
 function loadLivresDispos() {
   let xhr = new XMLHttpRequest();
-  xhr.open("GET", "php/requeteEmprunt.php?", true);
+  xhr.open("GET", "php/requeteLivresDispos.php?", true);
   xhr.send(null);
 
   xhr.addEventListener("load", function() {

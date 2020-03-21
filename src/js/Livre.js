@@ -15,6 +15,3 @@ class Livre {
     // TO DO
   }
 }
-
-let l = new Livre(26, "a");
-l.afficherListe();
