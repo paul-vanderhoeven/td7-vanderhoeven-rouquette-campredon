@@ -29,7 +29,7 @@ class ModelEmprunt extends Model {
 
   public static function getLivreEmprunte() {
 
-      $sql = "select idLivre, titreLivre from livre where idLivre IN (select idLivre FROM emprunt)";
+      $sql = "select l.idLivre, titreLivre, idAdherent from emprunt e join livre l on e.idLivre=l.idLivre";
 
       try{
         $req_prep = Model::$pdo->prepare($sql);
@@ -50,20 +50,16 @@ class ModelEmprunt extends Model {
       }
   }
 
-  public static function getNombreEmprunt($idAdherent) {
-    $sql = "SELECT COUNT(idLivre) AS nbEmprunt FROM emprunt where idAdherent = :idAdherent";
+  public static function deleteEmprunteur($idAdherent, $idLivre) {
+    $sql = "DELETE FROM emprunt WHERE idAdherent = :idAdherent AND idLivre = :idLivre";
 
     try{
       $req_prep = Model::$pdo->prepare($sql);
 
       $req_prep->bindParam(":idAdherent", $idAdherent);
+      $req_prep->bindParam(":idLivre", $idLivre);
 
       $req_prep->execute();
-
-      $req_prep->setFetchMode(PDO::FETCH_OBJ);
-	    $tab_obj = $req_prep->fetchAll();
-
-      return $tab_obj;
     }
     catch(PDOException $e) {
       if($e->getCode() == 23000) {

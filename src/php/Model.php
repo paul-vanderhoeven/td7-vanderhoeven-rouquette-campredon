@@ -59,30 +59,6 @@ class Model {
 	    }
 	}
 
-  public static function getMaxId($table_name, $id) {
-    try{
-      $sql = "SELECT max($id) as max from $table_name ;";
-      $req_prep = Model::$pdo->prepare($sql);
-
-      $req_prep->execute();
-
-      $req_prep->setFetchMode(PDO::FETCH_OBJ);
-      $tab_voit = $req_prep->fetchAll();
-      // Attention, si il n'y a pas de résultats, on renvoie false
-      if (empty($tab_voit))
-          return false;
-      return $tab_voit[0];
-    }
-    catch(PDOException $e) {
-        if($e->getCode() == 23000) {
-            return false;
-          } else {
-            $e->getMessage();
-          }
-        die();
-      }
-  }
-
 	public static function delete($primary_value, $primary_key, $table_name) {
 
 		$sql = "DELETE FROM " . $table_name . " WHERE " . $primary_key . "=:value";

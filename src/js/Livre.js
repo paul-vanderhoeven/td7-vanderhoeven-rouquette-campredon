@@ -1,9 +1,9 @@
 class Livre {
 
-  constructor(idLivre, titreLivre) {
+  constructor(idLivre, titreLivre, emprunteur) {
     this.idLivre = idLivre;
     this.titreLivre = titreLivre;
-    this.emprunteur = null;
+    this.idAdherent = emprunteur;
   }
 
   afficherListe(id) {
@@ -13,43 +13,40 @@ class Livre {
     document.getElementById(id).appendChild(li);
   }
 
-  static afficherListeLivresDispos() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "php/requeteLivresDispos.php", true);
-    xhr.send(null);
-
-    xhr.addEventListener("load", function() {
-      let livreArray = JSON.parse(xhr.responseText);
-      for (var livre in livreArray) {
-        let a = new Livre(livreArray[livre].idLivre, livreArray[livre].titreLivre);
-        a.afficherListe("listeLivresDisponibles");
-      }
-    });
-  }
-
-  static afficherListeLivresEmpruntes() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "php/requeteLivresEmpruntes.php", true);
-    xhr.send(null);
-
-    xhr.addEventListener("load", function() {
-      let livreArray = JSON.parse(xhr.responseText);
-      for (var livre in livreArray) {
-        let a = new Livre(livreArray[livre].idLivre, livreArray[livre].titreLivre);
-        a.afficherListe("listeLivresEmpruntes");
-      }
-    });
-  }
-
-  setEmprunteur(a) {
-    this.emprunteur = a;
-  }
-
   sauvegarder() {
-    // TO DO
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "php/save.php?table=livre&titreLivre=" + this.titreLivre, true);
+    xhr.send(null);
+
+    xhr.addEventListener("load", function() {
+      alert("Votre livre a été sauvegardé !");
+      location.reload();
+    })
   }
 
-  preter(Adherent) {
-    // TO DO
+  sauvegarderEmprunt(adherent) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "php/save.php?table=emprunt&idLivre=" + this.idLivre + "&idAdherent=" + adherent.idAdherent, true);
+    xhr.send(null);
+
+    this.idAdherent = adherent.idAdherent;
+
+    xhr.addEventListener("load", function() {
+      alert("Le livre a été emprunté !");
+      location.reload();
+    })
+  }
+
+  removeEmprunt() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "php/deleteEmprunteur.php?idAdherent=" + this.idAdherent + "&idLivre=" + this.idLivre + ";", true);
+    xhr.send(null);
+
+    this.idAdherent = null;
+
+    xhr.addEventListener("load", function() {
+      alert("Le livre a été rendu !");
+      location.reload();
+    })
   }
 }
