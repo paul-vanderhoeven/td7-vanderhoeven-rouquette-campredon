@@ -1,18 +1,19 @@
-class LivreDisponible {
+class Livre {
 
   constructor(idLivre, titreLivre) {
     this.idLivre = idLivre;
     this.titreLivre = titreLivre;
+    this.emprunteur = null;
   }
 
-  afficherListe() {
+  afficherListe(id) {
     let li = document.createElement("li");
     li.id = this.idLivre;
     li.innerHTML = this.idLivre + " - " + this.titreLivre;
-    document.getElementById("listeLivresDisponibles").appendChild(li);
+    document.getElementById(id).appendChild(li);
   }
 
-  static afficherListeComplete() {
+  static afficherListeLivresDispos() {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "php/requeteLivresDispos.php", true);
     xhr.send(null);
@@ -20,23 +21,29 @@ class LivreDisponible {
     xhr.addEventListener("load", function() {
       let livreArray = JSON.parse(xhr.responseText);
       for (var livre in livreArray) {
-        let a = new LivreDisponible(livreArray[livre].idLivre, livreArray[livre].titreLivre);
-        a.afficherListe();
+        let a = new Livre(livreArray[livre].idLivre, livreArray[livre].titreLivre);
+        a.afficherListe("listeLivresDisponibles");
       }
     });
   }
 
-  /*setMaxId() {
+  static afficherListeLivresEmpruntes() {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "php/getMaxId.php?table=livre", true);
+    xhr.open("GET", "php/requeteLivresEmpruntes.php", true);
     xhr.send(null);
 
     xhr.addEventListener("load", function() {
-      let max = JSON.parse(xhr.responseText)["max"];
-      LivreDisponible.maxId = max;
+      let livreArray = JSON.parse(xhr.responseText);
+      for (var livre in livreArray) {
+        let a = new Livre(livreArray[livre].idLivre, livreArray[livre].titreLivre);
+        a.afficherListe("listeLivresEmpruntes");
+      }
     });
-  }*/
+  }
 
+  setEmprunteur(a) {
+    this.emprunteur = a;
+  }
 
   sauvegarder() {
     // TO DO
