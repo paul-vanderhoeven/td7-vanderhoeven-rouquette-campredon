@@ -10,6 +10,7 @@ class Livre {
     let li = document.createElement("li");
     li.id = this.idLivre;
     li.innerHTML = this.idLivre + " - " + this.titreLivre;
+    li.style.cursor = "grab";
     document.getElementById(id).appendChild(li);
   }
 

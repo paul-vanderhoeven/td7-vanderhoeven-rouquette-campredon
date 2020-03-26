@@ -88,7 +88,7 @@ function setupLivresDisposCallback(xhr) {
   for (var livre in livreArray) {
     let l = new Livre(livreArray[livre].idLivre, livreArray[livre].titreLivre);
     livresDispos.push(l);
-    l.afficherListe(listeLivresDisponibles);
+    l.afficherListe("listeLivresDisponibles");
   }
 }
 
@@ -102,7 +102,7 @@ function setupLivresEmpruntCallback(xhr) {
     emprunteur.ajouterLivre(l);
 
     livresEmpruntees.push(l);
-    l.afficherListe(listeLivresEmpruntes);
+    l.afficherListe("listeLivresEmpruntes");
   }
 }
 

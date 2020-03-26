@@ -21,6 +21,7 @@ class Adherent {
     let li = document.createElement("li");
     li.id = this.idAdherent;
     li.innerHTML = this.idAdherent + " - " + this.nomAdherent;
+    li.style.cursor = "grab";
     document.getElementById("listeAdherents").appendChild(li);
 
     // afficher le nombre de livres empruntés
